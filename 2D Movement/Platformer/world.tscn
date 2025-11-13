@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://cf6p276omy08g"]
+[gd_scene load_steps=11 format=3 uid="uid://kr6o40pxfk2j"]
 
-[ext_resource type="Script" uid="uid://cgkr40aouke4i" path="res://2D Movement/Topdown/Script.gd" id="1_1e58b"]
-[ext_resource type="Texture2D" uid="uid://bastphta8smnu" path="res://Dummy.png" id="1_tmepf"]
-[ext_resource type="Script" uid="uid://cgdh5o10r0n4k" path="res://Input/8Way.gd" id="3_17le5"]
+[ext_resource type="Script" uid="uid://dvyp16t5uqph0" path="res://2D Movement/Platformer/Script.gd" id="1_t0eer"]
+[ext_resource type="Texture2D" uid="uid://bastphta8smnu" path="res://Dummy.png" id="2_of7ro"]
+[ext_resource type="Script" uid="uid://b7dkg3taaodc" path="res://Input/Platformer.gd" id="3_of7ro"]
+[ext_resource type="Texture2D" uid="uid://bkm17vs0ebxqh" path="res://Tile.png" id="4_of7ro"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pqsqx"]
 radius = 2.0
@@ -45,14 +46,23 @@ _data = {
 &"RESET": SubResource("Animation_etu15")
 }
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_of7ro"]
+texture = ExtResource("4_of7ro")
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSet" id="TileSet_131gq"]
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_of7ro")
+
 [node name="World" type="Node"]
 
 [node name="Player" type="CharacterBody2D" parent="."]
-script = ExtResource("1_1e58b")
+script = ExtResource("1_t0eer")
 
 [node name="Sprite" type="Sprite2D" parent="Player"]
 position = Vector2(0, -8)
-texture = ExtResource("1_tmepf")
+texture = ExtResource("2_of7ro")
 hframes = 4
 vframes = 4
 frame = 1
@@ -68,7 +78,11 @@ libraries = {
 }
 
 [node name="Input" type="Node2D" parent="Player"]
-script = ExtResource("3_17le5")
+script = ExtResource("3_of7ro")
 
 [node name="Camera" type="Camera2D" parent="."]
 zoom = Vector2(5, 5)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray(0, 0, 254, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+tile_set = SubResource("TileSet_131gq")
