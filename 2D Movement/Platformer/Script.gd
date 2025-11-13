@@ -1,31 +1,26 @@
 extends CharacterBody2D
 
-#vertical movement variables
-var jump_speed = 50.0
-var gravity = 0.5
-var jump_release_deceleration = 0.5
+var walk_speed = 100
+var acceleration = 12.0
+var jump_speed = 200
+var gravity = 9.81
+var gravity_scale = 0.2
 
-#horizontal movement variables
-var move_speed = 75.0
-var acceleration = 0.5
-var deceleration = 0.1
-var direction := Vector2.ZERO
 
-func _physics_process(delta: float) -> void:
-	if !is_on_floor():
-		velocity.y += gravity * delta
-	#get input direction from keyboard
-	direction = $Input.direction
-	#calculate velocity, also calculated deceleration if direction is 0
-	if direction.x != 0:
-		velocity.x = move_toward(velocity.x, direction.x * move_speed, move_speed * acceleration)
-	else:
-		velocity.x = move_toward(velocity.x, 0, move_speed * deceleration)
+func _physics_process(delta):
+	# Add gravity every frame if not grounded
+	if !$Is_Grounded.is_colliding():
+		velocity.y += gravity
 	
-	if is_on_floor() && $Input.is_jumping:
+	# Only allow jumping when on the ground
+	if $Input.is_jumping && $Is_Grounded.is_colliding():
 		velocity.y = -jump_speed
 	
+	# Handles variable jump height, releasing jump key early lets you "hop" instead of jump
 	if velocity.y < 0 && $Input.jump_released:
-		velocity.y *= -jump_release_deceleration
+		velocity.y *= gravity_scale
+	
+	# Input affects x axis only and accelerates smoothly
+	velocity.x = lerp(velocity.x, $Input.direction * walk_speed, delta * acceleration)
 	
 	move_and_slide()
