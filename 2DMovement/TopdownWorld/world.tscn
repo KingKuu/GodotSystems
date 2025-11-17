@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://bff1yqlxtucye"]
+
+[ext_resource type="Script" uid="uid://cu6ev18foy5t7" path="res://2DMovement/TopdownWorld/character.gd" id="1_2fueh"]
+[ext_resource type="Texture2D" uid="uid://bastphta8smnu" path="res://Dummy.png" id="1_cx5js"]
+[ext_resource type="Script" uid="uid://dxhtek2acw6q7" path="res://2DMovement/Topdown.gd" id="3_gyydg"]
+[ext_resource type="Script" uid="uid://cgdh5o10r0n4k" path="res://Input/8Way.gd" id="4_xbd5m"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1ojxe"]
+radius = 2.0
+height = 6.0
+
+[node name="World" type="Node2D"]
+
+[node name="Character" type="CharacterBody2D" parent="."]
+script = ExtResource("1_2fueh")
+
+[node name="Sprite" type="Sprite2D" parent="Character"]
+position = Vector2(0, -8)
+texture = ExtResource("1_cx5js")
+hframes = 4
+vframes = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Character"]
+position = Vector2(0, -2)
+rotation = -1.5707964
+shape = SubResource("CapsuleShape2D_1ojxe")
+
+[node name="Movement" type="Node2D" parent="Character"]
+script = ExtResource("3_gyydg")
+
+[node name="Input" type="Node2D" parent="Character"]
+script = ExtResource("4_xbd5m")
+
+[node name="Camera" type="Camera2D" parent="."]
+zoom = Vector2(5, 5)
